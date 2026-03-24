@@ -112,7 +112,7 @@ else
 
   echo "Running initial bisync (dry-run)..."
   rclone bisync "$CLAUDE_PROJECTS_DIR" "${REMOTE}:${BUCKET}" \
-    --resync --dry-run -MvP
+    --resync --resync-mode newer --dry-run -MvP
 
   echo ""
   read -rp "Dry-run complete. Proceed with actual resync? [y/N] " answer
@@ -123,7 +123,7 @@ else
 
   echo "Running initial bisync..."
   rclone bisync "$CLAUDE_PROJECTS_DIR" "${REMOTE}:${BUCKET}" \
-    --resync -MvP
+    --resync --resync-mode newer -MvP
 
   echo "Initial sync complete."
 fi
