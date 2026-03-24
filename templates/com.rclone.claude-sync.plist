@@ -19,7 +19,7 @@
         <string>newer</string>
         <string>--max-delete</string>
         <string>50</string>
-        <string>-MvP</string>
+        <string>-vP</string>
     </array>
     <key>StartInterval</key>
     <integer>__INTERVAL__</integer>

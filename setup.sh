@@ -112,7 +112,7 @@ else
 
   echo "Running initial bisync (dry-run)..."
   rclone bisync "$CLAUDE_PROJECTS_DIR" "${REMOTE}:${BUCKET}" \
-    --resync --resync-mode newer --dry-run -MvP
+    --resync --resync-mode newer --dry-run -vP
 
   echo ""
   read -rp "Dry-run complete. Proceed with actual resync? [y/N] " answer
@@ -123,7 +123,7 @@ else
 
   echo "Running initial bisync..."
   rclone bisync "$CLAUDE_PROJECTS_DIR" "${REMOTE}:${BUCKET}" \
-    --resync --resync-mode newer -MvP
+    --resync --resync-mode newer -vP
 
   echo "Initial sync complete."
 fi
@@ -153,8 +153,12 @@ case "$OS" in
       -e "s|__LOG_FILE__|${LOG_FILE}|g" \
       "${SCRIPT_DIR}/templates/com.rclone.claude-sync.plist" > "$PLIST_PATH"
 
-    launchctl bootout "gui/$(id -u)/${PLIST_NAME}" 2>/dev/null || true
-    launchctl bootstrap "gui/$(id -u)" "$PLIST_PATH"
+    DOMAIN="gui/$(id -u)"
+    launchctl bootout "${DOMAIN}/${PLIST_NAME}" 2>/dev/null || true
+    sleep 1
+    launchctl bootstrap "${DOMAIN}" "$PLIST_PATH" 2>/dev/null \
+      || launchctl load -w "$PLIST_PATH" 2>/dev/null \
+      || true
 
     echo "launchd service registered: ${PLIST_PATH}"
     echo "Log file: ${LOG_FILE}"
@@ -186,7 +190,7 @@ case "$OS" in
   *)
     echo "Unsupported OS: $OS"
     echo "You can manually set up a cron job:"
-    echo "  */${INTERVAL_MIN} * * * * ${RCLONE_PATH} bisync ${CLAUDE_PROJECTS_DIR} ${REMOTE}:${BUCKET} --resilient --recover --max-lock 2m --conflict-resolve newer --max-delete 50 -MvP"
+    echo "  */${INTERVAL_MIN} * * * * ${RCLONE_PATH} bisync ${CLAUDE_PROJECTS_DIR} ${REMOTE}:${BUCKET} --resilient --recover --max-lock 2m --conflict-resolve newer --max-delete 50 -vP"
     exit 1
     ;;
 esac
