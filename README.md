@@ -31,7 +31,7 @@ cd claude-history-sync
 | -------------------- | ---------------------- | --------------------- |
 | `--remote NAME`      | rclone remote name     | `gdrive`              |
 | `--bucket NAME`      | remote folder name     | `dev/claude-projects` |
-| `--interval SECONDS` | sync interval (min 60) | `300` (5 min)         |
+| `--interval SECONDS` | sync interval (min 60) | `43200` (12 hours)    |
 
 ### Examples
 
@@ -49,6 +49,28 @@ cd claude-history-sync
    - **Linux**: systemd user timer (`~/.config/systemd/user/claude-sync.{service,timer}`)
 
 If setup.sh detects an existing installation, it skips the initial resync and only updates the periodic sync configuration. To force a full resync, run `./uninstall.sh` first.
+
+## Reload
+
+After editing templates or changing the sync interval, run `reload.sh` to apply changes without re-running the initial resync.
+
+```bash
+# Reload with updated template
+./reload.sh
+
+# Change sync interval
+./reload.sh --interval 3600
+```
+
+## Manual sync
+
+```bash
+# macOS
+launchctl kickstart "gui/$(id -u)/com.rclone.claude-sync"
+
+# Linux
+systemctl --user start claude-sync.service
+```
 
 ## Viewing logs
 

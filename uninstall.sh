@@ -7,7 +7,7 @@ case "$OS" in
     PLIST_NAME="com.rclone.claude-sync.plist"
     PLIST_PATH="$HOME/Library/LaunchAgents/${PLIST_NAME}"
 
-    launchctl bootout "gui/$(id -u)/${PLIST_NAME}" 2>/dev/null || true
+    launchctl unload "$PLIST_PATH" 2>/dev/null || true
 
     if [[ -f "$PLIST_PATH" ]]; then
       rm "$PLIST_PATH"

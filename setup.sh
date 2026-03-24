@@ -7,7 +7,7 @@ CLAUDE_PROJECTS_DIR="$HOME/.claude/projects"
 # Defaults
 REMOTE="gdrive"
 BUCKET="dev/claude-projects"
-INTERVAL=300  # seconds (5 minutes)
+INTERVAL=43200  # seconds (12 hours)
 
 usage() {
   cat <<EOF
@@ -153,12 +153,8 @@ case "$OS" in
       -e "s|__LOG_FILE__|${LOG_FILE}|g" \
       "${SCRIPT_DIR}/templates/com.rclone.claude-sync.plist" > "$PLIST_PATH"
 
-    DOMAIN="gui/$(id -u)"
-    launchctl bootout "${DOMAIN}/${PLIST_NAME}" 2>/dev/null || true
-    sleep 1
-    launchctl bootstrap "${DOMAIN}" "$PLIST_PATH" 2>/dev/null \
-      || launchctl load -w "$PLIST_PATH" 2>/dev/null \
-      || true
+    launchctl unload "$PLIST_PATH" 2>/dev/null || true
+    launchctl load -w "$PLIST_PATH"
 
     echo "launchd service registered: ${PLIST_PATH}"
     echo "Log file: ${LOG_FILE}"
