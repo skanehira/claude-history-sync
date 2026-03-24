@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rclone.claude-sync</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>__RCLONE_PATH__</string>
+        <string>bisync</string>
+        <string>__CLAUDE_PROJECTS_DIR__</string>
+        <string>__REMOTE__:__BUCKET__</string>
+        <string>--resilient</string>
+        <string>--recover</string>
+        <string>--max-lock</string>
+        <string>2m</string>
+        <string>--conflict-resolve</string>
+        <string>newer</string>
+        <string>--max-delete</string>
+        <string>50</string>
+        <string>-MvP</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>__INTERVAL__</integer>
+    <key>StandardOutPath</key>
+    <string>__LOG_FILE__</string>
+    <key>StandardErrorPath</key>
+    <string>__LOG_FILE__</string>
+</dict>
+</plist>

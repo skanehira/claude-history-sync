@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Claude Code sync every __INTERVAL_MIN__ minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=__INTERVAL_MIN__min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
