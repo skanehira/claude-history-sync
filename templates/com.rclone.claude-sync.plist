@@ -19,6 +19,8 @@
         <string>newer</string>
         <string>--max-delete</string>
         <string>50</string>
+        <string>--check-sync=false</string>
+        <string>--local-no-check-updated</string>
         <string>-vP</string>
     </array>
     <key>StartInterval</key>

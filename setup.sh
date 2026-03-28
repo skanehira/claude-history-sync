@@ -186,7 +186,7 @@ case "$OS" in
   *)
     echo "Unsupported OS: $OS"
     echo "You can manually set up a cron job:"
-    echo "  */${INTERVAL_MIN} * * * * ${RCLONE_PATH} bisync ${CLAUDE_PROJECTS_DIR} ${REMOTE}:${BUCKET} --resilient --recover --max-lock 2m --conflict-resolve newer --max-delete 50 -vP"
+    echo "  */${INTERVAL_MIN} * * * * ${RCLONE_PATH} bisync ${CLAUDE_PROJECTS_DIR} ${REMOTE}:${BUCKET} --resilient --recover --max-lock 2m --conflict-resolve newer --max-delete 50 --check-sync=false --local-no-check-updated -vP"
     exit 1
     ;;
 esac

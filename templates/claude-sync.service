@@ -3,4 +3,4 @@ Description=Sync Claude Code projects via rclone bisync
 
 [Service]
 Type=oneshot
-ExecStart=__RCLONE_PATH__ bisync __CLAUDE_PROJECTS_DIR__ __REMOTE__:__BUCKET__ --resilient --recover --max-lock 2m --conflict-resolve newer --max-delete 50 -vP
+ExecStart=__RCLONE_PATH__ bisync __CLAUDE_PROJECTS_DIR__ __REMOTE__:__BUCKET__ --resilient --recover --max-lock 2m --conflict-resolve newer --max-delete 50 --check-sync=false --local-no-check-updated -vP
