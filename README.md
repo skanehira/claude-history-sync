@@ -64,6 +64,8 @@ After editing templates or changing the sync interval, run `reload.sh` to apply 
 
 ## Manual sync
 
+Trigger the registered job:
+
 ```bash
 # macOS
 launchctl kickstart "gui/$(id -u)/com.rclone.claude-sync"
@@ -71,6 +73,17 @@ launchctl kickstart "gui/$(id -u)/com.rclone.claude-sync"
 # Linux
 systemctl --user start claude-sync.service
 ```
+
+Or run `rclone bisync` directly, bypassing the registered job. This uses the same flags as the periodic sync, which is handy for debugging or a one-off sync:
+
+```bash
+rclone bisync ~/.claude/projects gdrive:dev/claude-projects \
+  --resilient --recover --max-lock 2m \
+  --conflict-resolve newer --max-delete 50 \
+  --check-sync=false --local-no-check-updated -vP
+```
+
+Replace `gdrive:dev/claude-projects` with your `--remote` and `--bucket` values if you customized them.
 
 ## Viewing logs
 
